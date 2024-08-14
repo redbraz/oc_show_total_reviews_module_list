@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+  <name>Show total reviews in product blocks</name>
+  <code>show_total_reviews</code>
+	<version>1.0</version>
+	<author>REDS</author>
+	<link>https://www.agenciaprai.com/</link>
+		
+	<file path="catalog/controller/extension/module/featured.php">
+		<operation error="skip">
+			<search><![CDATA['rating'      => $rating,]]></search>
+			<add position="after"><![CDATA['reviews'     => (int)$product_info['reviews'],]]></add>
+		</operation>
+	</file>
+	<file path="catalog/controller/extension/module/{latest,bestseller,special}.php">
+		<operation error="skip">
+			<search><![CDATA['rating'      => $rating,]]></search>
+			<add position="after"><![CDATA['reviews'     => (int)$result['reviews'],]]></add>
+		</operation>
+	</file>
+	<file path="catalog/view/theme/*/template/extension/module/{featured,latest,bestseller,special}.twig">
+		<operation error="skip">
+			<search index="0"><![CDATA[{% endfor %}</div>]]></search>
+			<add position="replace"><![CDATA[{% endfor %} ({{ product.reviews }})</div>]]></add>
+		</operation>
+	</file>	
+	<file path="catalog/controller/product/{category,manufacturer,search,special}.php">
+		<operation error="skip">
+			<search><![CDATA['rating'      => $result['rating'],]]></search>
+			<add position="after"><![CDATA['reviews'     => (int)$result['reviews'],]]></add>
+		</operation>
+	</file>
+	<file path="catalog/view/theme/*/template/product/{category,manufacturer_info,search,special}.twig">
+		<operation error="skip">
+			<search index="0"><![CDATA[{% endfor %} </div>]]></search>
+			<add position="replace"><![CDATA[{% endfor %} ({{ product.reviews }})</div>]]></add>
+		</operation>
+	</file>
+	
+</modification>
